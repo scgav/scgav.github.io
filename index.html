@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Medical Term Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
+        #sidebar { width: 200px; position: fixed; left: 10px; top: 10px; padding: 10px; border-right: 2px solid black; }
+        #sidebar h3 { margin-bottom: 10px; }
+        #sidebar ul { list-style: none; padding: 0; }
+        #sidebar li { margin: 5px 0; cursor: pointer; color: blue; text-decoration: underline; }
+        #sidebar li:hover { color: darkblue; }
+        #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
+        #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
+        .hidden-section { background-color: gray; color: gray; padding: 10px; margin: 10px; cursor: pointer; }
+        .revealed { background-color: white; color: black; border: 1px solid black; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar (Table of Contents) -->
+    <div id="sidebar">
+        <h3>Illnesses</h3>
+        <ul id="illness-list"></ul>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <h1>Random Medical Term Generator</h1>
+        <button onclick="getRandomTerm()">Next Random Term</button>
+
+        <div id="term-box">
+            <h2 id="term-name"></h2>
+            
+            <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
+                <strong>Definition:</strong> <span id="term-definition">Click to Reveal</span>
+            </div>
+
+            <div id="symptoms" class="hidden-section" onclick="toggleReveal('symptoms')">
+                <strong>Symptoms:</strong> <span id="term-symptoms">Click to Reveal</span>
+            </div>
+
+            <div id="treatment" class="hidden-section" onclick="toggleReveal('treatment')">
+                <strong>Treatment:</strong> <span id="term-treatment">Click to Reveal</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const terms = [
+            { name: "Airsickness", definition: "Conflicting messages to the nervous system", symptoms: "Cold & clammy skin, dizziness, nausea", treatment: "Cool towel, reseat to middle, focus on distant objects" },
+            { name: "Hypoxia", definition: "Lack of oxygen in the body", symptoms: "Confusion, shortness of breath, blue lips", treatment: "Administer oxygen, descend altitude" },
+            { name: "Dehydration", definition: "Not enough water in the body", symptoms: "Dry mouth, fatigue, dizziness", treatment: "Drink water, avoid caffeine & alcohol" }
+        ];
+
+        function getRandomTerm() {
+            let randomIndex = Math.floor(Math.random() * terms.length);
+            displayTerm(terms[randomIndex]);
+        }
+
+        function displayTerm(term) {
+            document.getElementById("term-name").textContent = term.name;
+
+            document.getElementById("term-definition").textContent = "Click to Reveal";
+            document.getElementById("term-symptoms").textContent = "Click to Reveal";
+            document.getElementById("term-treatment").textContent = "Click to Reveal";
+
+            document.getElementById("definition").classList.remove("revealed");
+            document.getElementById("symptoms").classList.remove("revealed");
+            document.getElementById("treatment").classList.remove("revealed");
+
+            document.getElementById("definition").dataset.content = term.definition;
+            document.getElementById("symptoms").dataset.content = term.symptoms;
+            document.getElementById("treatment").dataset.content = term.treatment;
+
+            document.getElementById("term-box").style.display = "block";
+        }
+
+        function toggleReveal(sectionId) {
+            let section = document.getElementById(sectionId);
+            let span = section.querySelector("span");
+
+            if (section.classList.contains("revealed")) {
+                section.classList.remove("revealed");
+                span.textContent = "Click to Reveal";
+            } else {
+                section.classList.add("revealed");
+                span.textContent = section.dataset.content;
+            }
+        }
+
+        // Populate Sidebar Table of Contents
+        function populateIllnessList() {
+            let illnessList = document.getElementById("illness-list");
+            terms.forEach((term, index) => {
+                let listItem = document.createElement("li");
+                listItem.textContent = term.name;
+                listItem.onclick = () => displayTerm(terms[index]);
+                illnessList.appendChild(listItem);
+            });
+        }
+
+        populateIllnessList();
+    </script>
+
+</body>
+</html>
