@@ -6,9 +6,22 @@
     <title>Signs, Symptoms, and Treatment of Illnesses and Injuries</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
-        #sidebar { width: 200px; position: fixed; left: 10px; top: 10px; padding: 10px; border-right: 2px solid black; }
+        #sidebar { 
+            width: 200px; 
+            position: fixed; 
+            left: 10px; 
+            top: 10px; 
+            padding: 10px; 
+            border-right: 2px solid black;
+            height: 90vh; /* Set height relative to viewport */
+        }
         #sidebar h3 { margin-bottom: 10px; }
-        #sidebar ul { list-style: none; padding: 0; }
+        #sidebar ul { 
+            list-style: none; 
+            padding: 0;
+            max-height: 80vh; /* Makes it scrollable */
+            overflow-y: auto; /* Enables scrolling */
+        }
         #sidebar li { margin: 5px 0; cursor: pointer; color: blue; text-decoration: underline; }
         #sidebar li:hover { color: darkblue; }
         #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
@@ -56,56 +69,47 @@
     <!-- Main Content -->
     <div id="main-content">
         <div id="term-box">
-            <h2 id="term-name"></h2>
+            
+            <div id="term-name-section" class="hidden-section" onclick="toggleReveal('term-name-section')">
+                <div class="section-label">Illness Name</div>
+                <h2 class="content" id="term-name"></h2>
+            </div>
 
             <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
                 <div class="section-label">Definition</div>
-                <div class="content"><strong>Definition:</strong> <span id="term-definition"></span></div>
+                <div class="content"><strong>Definition:<br/></strong> <span id="term-definition"></span></div>
             </div>
 
             <div id="symptoms" class="hidden-section" onclick="toggleReveal('symptoms')">
                 <div class="section-label">Symptoms</div>
-                <div class="content"><strong>Symptoms:</strong> <span id="term-symptoms"></span></div>
+                <div class="content"><strong>Symptoms:<br/></strong> <span id="term-symptoms"></span></div>
             </div>
 
             <div id="treatment" class="hidden-section" onclick="toggleReveal('treatment')">
                 <div class="section-label">Treatment</div>
-                <div class="content"><strong>Treatment:</strong> <span id="term-treatment"></span></div>
+                <div class="content"><strong>Treatment:<br/></strong> <span id="term-treatment"></span></div>
             </div>
         </div>
         <button onclick="getRandomTerm()">Next Random Term</button>
     </div>
 
     <script>
-        const terms = [
-            { name: "Airsickness", definition: "Conflicting messages to the nervous system", symptoms: "Cold & clammy skin, dizziness, nausea", treatment: "Cool towel, reseat to middle, focus on distant objects" },
-            { name: "Hypoxia", definition: "Lack of oxygen in the body", symptoms: "Confusion, shortness of breath, blue lips", treatment: "Administer oxygen, descend altitude" },
-            { name: "Dehydration", definition: "Not enough water in the body", symptoms: "Dry mouth, fatigue, dizziness", treatment: "Drink water, avoid caffeine & alcohol" }
-        ];
-
         function getRandomTerm() {
             let randomIndex = Math.floor(Math.random() * terms.length);
             displayTerm(terms[randomIndex]);
         }
 
         function displayTerm(term) {
-            document.getElementById("term-name").textContent = term.name;
+            document.getElementById("term-name").innerHTML = term.name;
+            document.getElementById("term-definition").innerHTML = term.definition;
+            document.getElementById("term-symptoms").innerHTML = term.symptoms;
+            document.getElementById("term-treatment").innerHTML = term.treatment;
 
-            document.getElementById("term-definition").textContent = term.definition;
-            document.getElementById("term-symptoms").textContent = term.symptoms;
-            document.getElementById("term-treatment").textContent = term.treatment;
-
-            document.getElementById("definition").classList.remove("revealed");
-            document.getElementById("symptoms").classList.remove("revealed");
-            document.getElementById("treatment").classList.remove("revealed");
-
-            document.getElementById("definition").querySelector(".content").style.display = "none";
-            document.getElementById("symptoms").querySelector(".content").style.display = "none";
-            document.getElementById("treatment").querySelector(".content").style.display = "none";
-
-            document.getElementById("definition").querySelector(".section-label").style.display = "block";
-            document.getElementById("symptoms").querySelector(".section-label").style.display = "block";
-            document.getElementById("treatment").querySelector(".section-label").style.display = "block";
+            document.querySelectorAll(".hidden-section").forEach(section => {
+                section.classList.remove("revealed");
+                section.querySelector(".section-label").style.display = "block";
+                section.querySelector(".content").style.display = "none";
+            });
 
             document.getElementById("term-box").style.display = "block";
         }
@@ -117,16 +121,15 @@
 
             if (section.classList.contains("revealed")) {
                 section.classList.remove("revealed");
-                label.style.display = "block"; // Show label again
-                content.style.display = "none"; // Hide content again
+                label.style.display = "block";
+                content.style.display = "none";
             } else {
                 section.classList.add("revealed");
-                label.style.display = "none"; // Hide label
-                content.style.display = "block"; // Show content
+                label.style.display = "none";
+                content.style.display = "block";
             }
         }
 
-        // Populate Sidebar Table of Contents
         function populateIllnessList() {
             let illnessList = document.getElementById("illness-list");
             terms.forEach((term, index) => {
@@ -136,6 +139,273 @@
                 illnessList.appendChild(listItem);
             });
         }
+
+const terms = [
+{
+        name: "Airsickness",
+        definition: "Central nervous system receives conflicting messages from the body",
+        symptoms: "1. Cold & clammy skin <br>2. Dizziness <br>3. Nausea, possible vomiting",
+        treatment: "1. Offer a cool, damp towel on forehead <br>2. Reseat to middle of aircraft <br>3. Keep head still, focus on distant objects <br>4. Offer 물, 주스, 진저에일, 티 <br>5. Contact MedLink if worsens or persistent"
+    },
+    {
+        name: "Allergic Reactions",
+        definition: "Hypersensitivity to some substance that is NOT generally known to be harmful",
+        symptoms: "1. Anxiety <br>2. Red, blotchy skin <br>3. Swelling face and neck <br>4. Puffy eyes <br>5. Red, itchy or watery eyes <br>6. Impaired breathing or wheezing <br>7. Rapid pulse <br>8. Mild itching <br>9. Anaphylactic shock",
+        treatment: "1. Ask for allergy history <br>2. Monitor, check breathing, pulse, level of consciousness <br>3. Treat any symptoms (itch rash, impaired breathing) <br>4. Remove the trigger if possible <br>5. Ask if they have any <br>6. Contact MedLink"
+    },
+    {
+        name: "Alcohol Intoxication",
+        definition: "Excessive intake of alcohol <br>** Don’t assume an intoxication if they are unconscious and have an odor of alcohol. Treat as a stroke, skull fracture or diabetes",
+        symptoms: "1. Odor of alcohol <br>2. Partial or complete unconsciousness <br>3. Face flushed at first, then pale <br>4. Pulse strong, then weak <br>5. Breathing slow and deep 자는것처럼 <br>6. Vomiting",
+        treatment: "1. Cover with a coat or blanket, reassure <br>2. Assess for any injuries (머리, and other medical conditions) <br>3. Monitor breathing and pulse"
+    },
+    {
+        name: "Asthma",
+        definition: "Muscles of the air passage go into spasms and the linings of the airway swell -> difficulty in breathing",
+        symptoms: "1. Distress and anxiety <br>2. Difficulty in breathing <br>3. Wheezing as breath out <br>4. Difficulty speaking <br>5. Gray blue skin <br>6. Dry, tickly cough <br>7. Exhausted <br>8. Unconsciousness may develop <br>9. Breathing and heartbeat may stop",
+        treatment: "1. Reassure and calm <br>2. Loosen tight clothing <br>3. Ask to breathe slowly and deeply <br>4. Use inhaler <br>5. If unconscious with breathing -> recovery position <br>6. If no breathing -> CPR & AED <br>7. Contact MedLink"
+    },
+    {
+        name: "Aviation Fluid Contamination",
+        definition: "Contaminated with kerosene or other fluids -> serious burns (skin, eyes)",
+        symptoms: "",
+        treatment: "1. Remove all affected clothing <br>2. Wash with running water <br>3. Eyes -> wash with a large amount of cold water"
+    },
+    {
+        name: "Back & Neck Injuries",
+        definition: "Objects falling out of overhead lockers & falling against hard surfaces during turbulence -> may damage the spinal cord",
+        symptoms: "1. Possible pain or tenderness in back or neck <br>2. Numbness or weakness in legs/arms/difficulty moving limbs <br>3. Loss of sensation in the injured area <br>4. Irregular curve of the spine <br>5. Difficulty in breathing",
+        treatment: "1. Don’t move from the position <br>2. Determine the nature & severity -> Ask to move their toes, feet, legs, hands, arms to test for loss of movement. Check if they can feel you touching their arms/legs <br>3. Stabilize the neck. Have your helper kneeling behind the head and keep their head aligned with their neck & spine <br>4. Put thick padding to support head <br>5. Call MedLink"
+    },
+    {
+        name: "Bleeding - External",
+        definition: "**Disposable gloves",
+        symptoms: "1. Evidence of blood <br>2. Feels faint, giddy <br>3. Looks pale <br>4. Skin feels cold and clammy <br>5. Pulse is rapid but weak <br>6. Thirsty <br>7. Restless and talkative <br>8. Breathing becomes shallower, yawning, air hunger <br>9. Shock <br>10. Unconsciousness",
+        treatment: "1. Check foreign object or fracture <br>2. Apply direct pressure on the wound using a clean dressing to stop the bleeding <br>3. Raise the injured part higher than the heart <br>4. Treat for shock <br>5. When bleeding stops/slows down -> apply a further dressing & bandage it <br>6. Tiny pieces -> remove it with tweezers <br>7. Never try to remove objects embedded in the wound -> apply pressure on either side of the wound or use a ring pad and place a piece of gauze lightly over wound to minimize the risk of germs <br>8. Contact MedLink **Indirect pressure -> Brachial artery, Femoral artery)"
+    },
+    {
+        name: "Bleeding - Internal",
+        definition: "Fracture or a penetrating wound, stomach ulcer",
+        symptoms: "1. Pale <br>2. Cold & clammy <br>3. Blue-gray <br>4. Pulse is rapid but weak <br>5. Pain <br>6. Swelling, tension <br>7. Thirsty <br>8. Shock may develop <br>9. Blood from orifices <br>10. Confusion, restlessness, possibly leading to collapse and unconsciousness",
+        treatment: "1. Lay, not to move <br>2. Reassure <br>3. Raise legs <br>4. Loosen tight clothing <br>5. Keep samples of vomit and give it to emergency medical <br>6. Monitor breathing & pulse <br>7. Treat for shock <br>8. Do NOT give anything by mouth <br>9. Contact MedLink"
+    },
+    {
+        name: "Blood & Body Fluid Exposure",
+        definition: "**Universal precautions",
+        symptoms: "",
+        treatment: "1. Eye -> wash with a large amount of cold water <br>2. Mouth -> spit out, rinse with water and spit out <br>3. Broken skin -> bleeding by squeezing the edges of the area & wash with soap under running water <br>4. Consult a doctor asap for treatment and blood tests"
+    },
+    {
+        name: "Bruises",
+        definition: "Small blood vessels break and leak their contents into the soft tissues beneath the skin",
+        symptoms: "1. Pain <br>2. Swelling & skin discoloration <br>3. Pinkish red, tender to touch",
+        treatment: "1. Cold compress on the bruise up to 15 min/hr **Do NOT put ice directly <br>2. Raise above the heart <br>3. Rest the bruised body part by not overworking muscles <br>4. Offer Paracetamol to reduce pain <br>5. Medical help if any swelling (esp. joint)"
+    },
+{
+        name: "Burns & Scalds",
+        definition: "Dry heat & Extreme Cold",
+        symptoms: "1st Degree (Superficial) <br>- Outer layer <br>- Redness, swelling, tenderness <br>2nd Degree (Intermediate) <br>- Raw, blisters <br>3rd Degree (Deep) <br>- Pale, waxy, charred",
+        treatment: "1. Wash in running cold water, apply cold compress for 10 min **Do NOT use ice <br>2. Remove jewellery, watches, clothing from injured area <br>3. Do not remove anything sticking to the burn to prevent infection <br>4. No lotions or ointments <br>5. Do not break blisters <br>6. Cover with sterile non-adhesive dressing, bandage <br>7. Infants or child -> Call MedLink <br>8. Inform Captain <br>3rd Degree <br>- Treat for shock <br>- Apply paraffin gauze on the wound and bandage the area <br>3. Contact MedLink <br>4. Inform Captain"
+    },
+    {
+        name: "Choking",
+        definition: "Throat blockage, induce muscular spasm",
+        symptoms: "1. Diff. breathing <br>2. Diff. coughing <br>3. Unable to speak <br>4. Grasping the neck/pointing throat <br>5. Congestion of the face & neck w/ veins becoming prominent <br>6. Lips turn blue <br>7. Unconsciousness",
+        treatment: "1 year & above <br>- Encourage to cough <br>- 5 back slaps <br>- 5 abdominal thrusts <br>**Pregnant/obese/infant -> chest thrust <br>1 year below <br>- 5 back slaps <br>- 5 chest thrusts <br>All ages <br>- Check obstruction first then ventilation Call MedLink"
+    },
+    {
+        name: "Deep Vein Thrombosis 혈전증",
+        definition: "Blood clots form in the deep veins on the leg (calf)",
+        symptoms: "1. Swelling of the calf <br>2. Pain/tenderness in the leg <br>3. Redness of the affected leg <br>**Chest pain, shortness of breath may occur due to DVT w/ Pulmonary Embolism",
+        treatment: "1. Raise the leg (at least 6 in) <br>2. Loosen tight clothing <br>3. If Pulmonary Embolism, give oxygen <br>4. Monitor breathing and pulse <br>5. Contact MedLink"
+    },
+    {
+        name: "Diabetes - Hypoglycaemia (lack of sugar)",
+        definition: "Lack of sugar",
+        symptoms: "1. Diabetes history <br>2. Feeling weak & faint <br>3. Possible hunger <br>4. Muscle tremors <br>5. Appear confused <br>6. Sweating <br>7. Pale <br>8. Cold & clammy <br>9. Stronger than normal pulse <br>10. Shallow breathing <br>11.  Possible unconsciousness",
+        treatment: "1. Sit/lie down & give them a sugary drink, chocolate <br>2. If improves, give more sweets <br>3. If no improvement, call MedLink <br>4. Monitor breathing and pulse"
+    },
+    {
+        name: "Diabetes - Hyperglycaemia (too much sugar)",
+        definition: "Too much sugar",
+        symptoms: "1. Dry skin <br>2. Rapid pulse <br>3. Deep breathing <br>4. Breath smells faintly of nail varnish remover or fruity sweet breath <br>5. Excessive thirst",
+        treatment: "1. Make them comfy <br>2. Contact MedLink <br>3. Monitor breathing and pulse **If unsure, treat for 'too little sugar' -> giving sugar won’t worsen the condition"
+    },
+    {
+        name: "Drug Intoxication / Poisoning",
+        definition: "Excessive intake of over-the-counter, prescribed or illegal drugs",
+        symptoms: "",
+        treatment: "1. Make them comfy and ask what they have taken <br>2. Contact MedLink and inform them of the suspicion of drug intake & monitor vital signs <br>3. If loses consciousness, open the airway and check breathing <br>4. Keep samples of any vomit"
+    },
+    {
+        name: "Emergency Childbirth",
+        definition: "2nd Stage <br>- Baby born <br>3rd Stage <br>- Placenta & Umbilical cord expelled",
+        symptoms: "1st Stage <br>- Contraction half/hr <br>- Water break <br>2nd Stage <br>- Contraction 5 min <br>- Mother bearing down <br>3rd Stage <br>- Mild contraction until placenta delivery",
+        treatment: "1st stage <br>- Reassure <br>- Massage lower back <br>- Inform Captain, MedLink <br>- Page medical helper <br>- Boiled water, pads, blanket, pillow, space <br>2nd Stage <br>- Cover floor with newspaper <br>- Half sitting position with supported back <br>- Encourage to push with contraction <br>- Support the baby <br>- Check umbilical cord (loose) <br>- Wipe any mucus <br>- Give 2 ventilations before CPR 3rd Stage <br>- Encourage the mother to push <br>- X pull/cut umbilical cord <br>- Keep the placenta in a plastic bag <br>- Clean"
+    },
+    {
+        name: "Epilepsy 뇌전증",
+        definition: "Disruption in the normal electrical activity of the brain",
+        symptoms: "1. Sudden loss of consciousness, often a strange cry <br>2. Body becomes rigid with arching of the back <br>3. Breathing may cease for a short time <br>4. Blue lips <br>5. Convulsive movements <br>6. Jaw clenched and breathing noisily with loss of bladder or bowel control. Saliva may appear at the mouth, blood-stained if lips or tongue is bitten <br>7. Muscles relax and breathing becomes normal <br>8. Regains consciousness. Unaware of their actions. <br>9. May want to sleep",
+        treatment: "1. Support their fall <br>2. X move them unless in danger <br>3. Protect them from hurting themselves by padding around them <br>4. X forcibly restrain their movements <br>5. X put anything in their mouth or try to open it <br>6. Place them in the recovery position, stay with them <br>7. Call MedLink"
+    },
+    {
+        name: "Fainting",
+        definition: "Brief loss of consciousness caused by temporary reduction of blood flow",
+        symptoms: "1. Brief loss of consciousness <br>2. Slow and weak pulse <br>3. Looks pale <br>4. Sweating <br>5. Cold skin",
+        treatment: "1. If conscious -> sit, lean forward and place their head between their knees <br>2. Take deep breaths <br>3. If unconscious -> lay them down, raise their legs, monitor breathing and pulse <br>4. Call MedLink if don’t recover in a few min."
+    },
+    {
+        name: "Fever",
+        definition: "Result from some other illnesses. Not a disease but a symptom of an underlying problem. Key role in helping the body fight off a number of bacterial and viral infections",
+        symptoms: "1. Temp. higher than 38C or 100.4F <br>2. Headache <br>3. Muscle aches <br>4. Shivering <br>5. Sweating <br>6. Lack of appetite <br>7. Dehydration <br>8. Weakness",
+        treatment: "1. Paracetamol <br>2. Plenty of fluids <br>3. Remove extra blankets and clothing <br>4. Tepid/lukewarm towel to forehead or neck <br>5. Contact MedLink if persists after 1 hour"
+    },
+{
+        "name": "Fracture & Dislocation",
+        "definition": "Fracture <br>- Break or crack in a bone <br>- Simple (closed) & compound (open) <br>Dislocation <br>- Strong force wrenching the bone into an abnormal position or by violent muscle contraction",
+        "symptoms": "1. Pain, tenderness <br>2. Bruising, swelling <br>3. Deformation of injured area (shortening of limb, visible broken bone ends) <br>4. Discoloration <br>5. Poor blood flow <br>6. Inability to move <br>7. Shock",
+        "treatment": "1. X straighten the fractured limb <br>2. X push the bone back inside the wound <br>3. Control bleeding <br>4. X replace the dislocated joint <br>5. Remove bracelets, rings, watches <br>6. Immobilize closed fracture and disclocations using inflatable splint or triangular bandage <br>7. Give pain killer <br>8. Check circulation by feeling the skin, color of nail bed, reapply bandages loosely. Check again in 10 min <br>9. Contact MedLink"
+    },
+    {
+        "name": "Gas Expansion",
+        "definition": "Atmospheric pressure encountered at high altitude",
+        "symptoms": "",
+        "treatment": ""
+    },
+    {
+        "name": "Ear Pain",
+        "definition": "",
+        "symptoms": "",
+        "treatment": "1. Chew gum/suck sweet <br>2. Swllow w/ mouth open <br>3. Pop the ears - Close mouth, pinch the nose tightly and blow the nose <br>4. Infants -> suck on pacifier, bottle, breast milk <br>5. If still complains, contact MedLink"
+    },
+    {
+        "name": "Sinus Headache",
+        "definition": "",
+        "symptoms": "",
+        "treatment": "Blow the nose one side at a time"
+    },
+    {
+        "name": "Abdominal Pain",
+        "definition": "",
+        "symptoms": "",
+        "treatment": "1. Place them in a reclined position w/ knees bent or comfortable position <br>2. X give pain killer, eat, drink (may hinder the doctor’s diagnosis) <br>3. Contact MedLink if required"
+    },
+    {
+        "name": "Toothache",
+        "definition": "",
+        "symptoms": "",
+        "treatment": "1. Apply heat (hot towel) on the affected side <br>2. Paracetamol"
+    },
+    {
+        "name": "Head Injuries",
+        "definition": "",
+        "symptoms": "1. Mental confusion / loss of memory <br>2. Loss of consciousness <br>3. Possible wound on scalp <br>4. Clear fluid flow, watery blood from ears/nose <br>5. Drooping of one side of the face <br>6. Pulse rate <60 or >100 per MIN <br>7. Dizziness/nausea <br>8. Mild headache <br>9. Unequal pupil size",
+        "treatment": "1. Keep them in reclining position w/ head slightly raised <br>2. Keep warm <br>3. Give oxygen <br>4. Dress open wounds"
+    },
+    {
+        "name": "Heart Disorders",
+        "definition": "",
+        "symptoms": "",
+        "treatment": ""
+    },
+    {
+        "name": "Angina Pectoris 협심증",
+        "definition": "Temporary inadequate blood supply to the heart muscle",
+        "symptoms": "1. Vice-like chest pain. May spread to the jaw and down one or both arms. Pain eases with the rest <br>2. Shortness of breath <br>3. Tiredness (sudden & extreme) <br>4. Anxiety",
+        "treatment": "1. Sit comfortably <br>2. Assist in taking their medicine <br>3. Give oxygen <br>4. Encourage to rest <br>5. If persists or returns, suspect and treat for a heart attack <br>6. Call MedLink"
+    },
+    {
+        "name": "Heart Attack",
+        "definition": "Blood clot blocks a coronary artery. Deprived of oxygen and is damaged",
+        "symptoms": "1. Vice-like chest pain. May spread to the jaw and down one or both arms. Pain does NOT ease with rest <br>2. Discomfort occurring high in the abdomen. Severe indigestion/heartburn <br>3. Difficulty in breathing. Extreme gasping for air <br>4. Sudden faintness, dizziness, or collapsing <br>5. Pale, gray skin <br>6. Blue lips <br>7. Rapid, weak, irregular pulse <br>8. Profuse sweating <br>9. Shock <br>10. Unconsciousness may develop <br>11. Breathing and heart beat may stop",
+        "treatment": "1. Treat on the spot <br>2. Make the comfortable in half sitting position <br>3. Assist them in taking their med <br>4. Loosen tight clothing <br>5. Give oxygen <br>6. Use AED <br>7. Treat shock <br>8. If unconscious with breathing -> put them in recovery position <br>9. If no breathing Normally -> start CPR <br>10. Contact MedLink"
+    },
+    {
+        "name": "Cardiac Arrest 심장마비",
+        "definition": "Discontinuation of normal circulation of blood due to failure of the heart to contract effectively",
+        "symptoms": "",
+        "treatment": "CPR & AED"
+    },
+    {
+        "name": "Hyperventilation 과호흡증 후군",
+        "definition": "Emotional over breathing. Always due to anxiety of fear which is usually subconscious in nature. Body’s reaction to release nervous tension",
+        "symptoms": "1. Unnaturally fast or deep breathing <br>2. Dizziness and blurring of vision <br>3. Numbness of tingling sensation of hands/feet <br>4. No apparent change in skin color",
+        "treatment": "1. Reassure <br>2. Instruct to breathe slowly <br>3. Contact MedLink **X rebreathe their own air from paper bags -> might aggravate a more serious illness"
+    },
+    {
+        "name": "Hypoxia 저산소증",
+        "definition": "Not obtaining enough oxygen",
+        "symptoms": "1. Headache, dizziness <br>2. Rapid, distressed breathing and gasping <br>3. Difficulty speaking <br>4. Anxiety, restlessness <br>5. Fatigue, excessive sleepiness and loss of coordination <br>6. Bluish discoloration",
+        "treatment": "1. Give oxygen <br>2. Loosen tight clothing <br>3. Contact MedLink"
+    },
+    {
+        "name": "Hysterical Attack",
+        "definition": "Subconscious condition caused by psychological stress",
+        "symptoms": "1. Attention seeking <br>2. Loss of control of behavior <br>3. If unconscious, can be distinguished from other attacks (face doesn’t change color, person will resist to open eyes, usually falls on something soft, seldom occurs unless someone is present)",
+        "treatment": "1. Take them to a less observed area <br>2. Do not give more attention than necessary"
+    },
+    {
+        "name": "Miscarriage",
+        "definition": "Loss of fetus before 24th week",
+        "symptoms": "1. Cramp on lower abdomen <br>2. Vaginal bleeding <br>3. Shock <br>4. Loss of fetus",
+        "treatment": "1. Reassure, place her in a half sitting position <br>2. Give a pad/clean towl <br>3. Monitor, record the pulse and breathing rate <br>4. Keep any expelled material for medical inspection <br>5. Give oxygen <br>6. Keep the mother warm <br>7. Call MedLink"
+    },
+    {
+        "name": "Needle-Stick Injury",
+        "definition": "**Dispose of the object in the Sharps Box",
+        "symptoms": "",
+        "treatment": "1. Encourage bleeding by squeezing the edges of the wound area <br>2. Wash the area with soap and running water <br>3. Consult the doctor asap for treatment and blood test"
+    },
+    {
+        "name": "Nose Bleeding",
+        "definition": "When blood vessels are ruptured",
+        "symptoms": "",
+        "treatment": "1. Sit them down with their head well forward <br>2. Don’t let their head tip back <br>3. Ask to pinch the soft part of the nose and breathe through their mouth <br>4. Ask not to speak, swallow, cough, or sniff <br>5. Ask to spit out any blood from the mouth <br>6. Apply a cold compress to the bridge of the nose <br>7. After 10 min, release the pressure <br>8. Reapply the pressure for another 10 min if still bleeding <br>9. If it continues for 30 min, call MedLink"
+    },
+{
+        "name": "Poisoning",
+        "definition": "",
+        "symptoms": "1. Conscious or an onlooker may tell you it has occurred <br>2. Feeling unwell, nausea, vomiting <br>3. Cramping abdominal pain <br>4. Diarrhea, possibly blood-stained <br>5. Possible shock",
+        "treatment": "1. Open the airway and monitor breathing and pulse. Put them in recovery position. <br>2. Gaseous poisoning: move the victim to a ventilated place <br>3. Chemical on skin or eyes: flush away with plenty of cold water. Remove contaminated clothing. Record details of the chemical <br>4. Swallowed poison: do not induce vomiting. Maintain an open airway, breathing, circulation. Try to identify the poison <br>5. Food poisoning: lie down and rest. Plenty of water to drink and an airsick bag to use for vomit. Move them closer to the lavatory. Treat for shock <br>6. Contact MedLink if vomiting or diarrhea becomes severe or persistent."
+    },
+    {
+        "name": "Shock",
+        "definition": "When circulatory system fails and becomes unable to distribute sufficient oxygen and nutrients to body",
+        "symptoms": "1. Shallow, rapid breathing <br>2. Pulse rate increases but weak and irregular <br>3. Pale and gray skin <br>4. Blue lips <br>5. Weakness and dizziness <br>6. Restless and anxious <br>7. Nausea, vomiting <br>8. Sweating, cold and clammy skin <br>9. Thirsty <br>10. Heart may stop",
+        "treatment": "1. Treat any obvious cause of shock (ex: external bleeding) <br>2. Lay them down, keep the head low, raise and support the legs to improve the blood supply <br>3. Loosen tight clothing <br>4. Keep them warm <br>5. X give anything to eat or drink <br>6. If unconscious w/ breathing -> place them in the recovery position <br>7. If no breathing -> CPR & AED <br>8. Monitor breathing and pulse <br>9. Contact MedLink"
+    },
+    {
+        "name": "Smoke, Fumes, Gas Exposure",
+        "definition": "",
+        "symptoms": "1. Headache <br>2. Irritation of the eyes, nose, throat and sinus congestion <br>3. Difficulty in breathing <br>4. Coughing <br>5. Burning sensation in or around the nose or mouth <br>6. Diarrhea, vomiting and nausea <br>7. Unconsciousness <br>8. Breathing and heart beat may stop",
+        "treatment": "1. Don PBE if smoke/fumes is still visible <br>2. Remove them from the area and give oxygen <br>3. Take off all contaminated clothing and rinse the skin w/ water <br>4. Treat as a burn if the victim shows any signs of burns <br>5. If unconscious w/ breathing, put them in the recovery position <br>6. If no breathing, CPR & AED <br>7. Contact MedLink"
+    },
+    {
+        "name": "Strains & Sprains",
+        "definition": "Strain: over stretching of muscle or tendon Sprains: injury to a ligament. Sudden unexpected movement at joint <br>**If unsure, treat it as a fracture",
+        "symptoms": "1. Pain/tenderness <br>2. Bruising/swelling <br>3. Inability to move or pain when moving",
+        "treatment": "1. Help them to sit in a comfortable position. Rest the injured part preferably raised <br>2. Cold compress on the affected area for up to 10 min <br>3. Apply comfortable support to the injured part - surrounding the area with soft padding secured with a bandage <br>4. Raise and support the injured limb. Check the circulation and reapply the bandage more loosely. Check every 10 min. **RICE - Rest Ice Comfortable Elevate"
+    },
+    {
+        "name": "Stun Gun Injury",
+        "definition": "Muscle spasms, burns, cardiac arrest, penetrate the skin",
+        "symptoms": "1. Small puncture wounds on the skin <br>2. Painful muscles <br>3. Muscle spasms & unable to relax <br>4. Electrical burns <br>5. Confusion <br>6. Irregular heart rhythm <br>7. Breathing and heartbeat may stop",
+        "treatment": "1. Wound dressing for puncture wound <br>2. Sore muscles -> Strains and Sprains <br>3. Muscle spasms -> massage and stretch <br>4. Electrical burns -> Burns and Scalds <br>5. Cardiac arrest -> Heart Disorders-Cardiac Arrest"
+    },
+    {
+        "name": "Stroke",
+        "definition": "Blood supply to the brain is suddenly impaired by a blood clot or ruptured artery. <br>Common in elderly people, people w/ high blood pressure or other circulatory disorders",
+        "symptoms": "1. Few minutes of warnings - headache, dizziness, ringing in ears, spots before eyes <br>2. Sudden severe headache w/ no apparent cause <br>3. Sudden confusion <br>4. Paralysis on one side or both sides of the body. Dribbling from the mouth. Slurred speech, Unequally dilated pupils, loss of bladder or bowel control <br>5. Sudden or progressive loss of consciousness <br>6. Breathing",
+        "treatment": "1. Lay them down with their head and shoulder slightly raised. Turn their head to one side, place a towel or cloth to absorb any dribble <br>2. Loosen tight clothing <br>3. Do not give anything to eat or drink <br>4. Monitor breathing and pulse <br>5. If unconscious w/ breathing -> recovery position <br>6. If no breathing -> CPR & AED <br>7. Contact MedLink"
+    },
+    {
+        "name": "Unconsciousness",
+        "definition": "Injury or illness resulted from an interruption of the brain’s normal activity",
+        "symptoms": "",
+        "treatment": "1. Check the level of consciousness <br>2. Ensure airway is clear <br>3. Place in recovery position and open airway <br>4. Loosen tight clothing <br>5. Treat any serious wounds or fractures <br>6. Keep them warm <br>7. Give oxygen <br>8. X give anything by mouth <br>9. X move unnecessarily <br>10. X leave unattended <br>11. Commence with CPR & AED if required <br>12. Monitor breathing and pulse <br>13. Contact MedLink"
+    }
+];
 
         populateIllnessList();
         getRandomTerm();
