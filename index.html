@@ -14,30 +14,13 @@
         #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
         
-        .hidden-section { 
-            background-color: gray; 
-            color: white; 
-            padding: 30px; 
-            margin: 10px; 
-            cursor: pointer; 
-            position: relative; 
-            text-align: center;
-        }
-        .revealed { 
+        .section { 
             background-color: white; 
             color: black; 
             border: 1px solid black; 
-            padding: 10px;
+            padding: 10px; 
+            margin: 10px; 
             text-align: left;
-        }
-        
-        .section-label { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%);
-            font-weight: bold; 
-            color: white; 
         }
         
         button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
@@ -56,16 +39,16 @@
         <div id="term-box">
             <h2 id="term-name"></h2>
 
-            <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
-                <div class="section-label">Definition</div>
+            <div id="definition" class="section">
+                <strong>Definition:</strong> <span id="term-definition"></span>
             </div>
 
-            <div id="symptoms" class="hidden-section" onclick="toggleReveal('symptoms')">
-                <div class="section-label">Symptoms</div>
+            <div id="symptoms" class="section">
+                <strong>Symptoms:</strong> <span id="term-symptoms"></span>
             </div>
 
-            <div id="treatment" class="hidden-section" onclick="toggleReveal('treatment')">
-                <div class="section-label">Treatment</div>
+            <div id="treatment" class="section">
+                <strong>Treatment:</strong> <span id="term-treatment"></span>
             </div>
         </div>
         <button onclick="getRandomTerm()">Next Random Term</button>
@@ -85,36 +68,11 @@
 
         function displayTerm(term) {
             document.getElementById("term-name").textContent = term.name;
-
-            document.getElementById("term-definition").textContent = "Click to Reveal";
-            document.getElementById("term-symptoms").textContent = "Click to Reveal";
-            document.getElementById("term-treatment").textContent = "Click to Reveal";
-
-            document.getElementById("definition").classList.remove("revealed");
-            document.getElementById("symptoms").classList.remove("revealed");
-            document.getElementById("treatment").classList.remove("revealed");
-
-            document.getElementById("definition").dataset.content = term.definition;
-            document.getElementById("symptoms").dataset.content = term.symptoms;
-            document.getElementById("treatment").dataset.content = term.treatment;
+            document.getElementById("term-definition").textContent = term.definition;
+            document.getElementById("term-symptoms").textContent = term.symptoms;
+            document.getElementById("term-treatment").textContent = term.treatment;
 
             document.getElementById("term-box").style.display = "block";
-        }
-
-        function toggleReveal(sectionId) {
-            let section = document.getElementById(sectionId);
-            let span = section.querySelector("span");
-            let label = section.querySelector(".section-label");
-
-            if (section.classList.contains("revealed")) {
-                section.classList.remove("revealed");
-                span.textContent = "Click to Reveal";
-                label.style.display = "block"; // Show label again when hiding
-            } else {
-                section.classList.add("revealed");
-                span.textContent = section.dataset.content;
-                label.style.display = "none"; // Hide label when revealed
-            }
         }
 
         // Populate Sidebar Table of Contents
