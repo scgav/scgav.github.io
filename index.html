@@ -15,7 +15,8 @@
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
         .hidden-section { background-color: gray; color: gray; padding: 10px; margin: 10px; cursor: pointer; }
         .revealed { background-color: white; color: black; border: 1px solid black; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+        .section-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; color: white; }
+       button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -28,21 +29,22 @@
 
     <!-- Main Content -->
     <div id="main-content">
-        <h1>Signs, Symptoms, and Treatment of Illnesses and Injuries</h1>
-
         <div id="term-box">
             <h2 id="term-name"></h2>
             
             <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
-                <strong>Definition:</strong> <span id="term-definition">Click to Reveal</span>
+                <div class="section-label">Definition</div>
+                <span id="term-definition">Click to Reveal</span>
             </div>
 
             <div id="symptoms" class="hidden-section" onclick="toggleReveal('symptoms')">
-                <strong>Symptoms:</strong> <span id="term-symptoms">Click to Reveal</span>
+                <div class="section-label">Symptoms</div>
+                <span id="term-symptoms">Click to Reveal</span>
             </div>
 
             <div id="treatment" class="hidden-section" onclick="toggleReveal('treatment')">
-                <strong>Treatment:</strong> <span id="term-treatment">Click to Reveal</span>
+                <div class="section-label">Treatment</div>
+                <span id="term-treatment">Click to Reveal</span>
             </div>
         </div>
         <button onclick="getRandomTerm()">Next Random Term</button>
