@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Medical Term Generator</title>
+    <title>Signs, Symptoms, and Treatment of Illnesses and Injuries</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
         #sidebar { width: 200px; position: fixed; left: 10px; top: 10px; padding: 10px; border-right: 2px solid black; }
@@ -29,7 +29,6 @@
     <!-- Main Content -->
     <div id="main-content">
         <h1>Random Medical Term Generator</h1>
-        <button onclick="getRandomTerm()">Next Random Term</button>
 
         <div id="term-box">
             <h2 id="term-name"></h2>
@@ -46,6 +45,7 @@
                 <strong>Treatment:</strong> <span id="term-treatment">Click to Reveal</span>
             </div>
         </div>
+        <button onclick="getRandomTerm()">Next Random Term</button>
     </div>
 
     <script>
