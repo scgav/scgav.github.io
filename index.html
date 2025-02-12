@@ -14,15 +14,34 @@
         #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
         
-        .section { 
+        .hidden-section { 
+            background-color: gray; 
+            color: white; 
+            padding: 30px; 
+            margin: 10px; 
+            cursor: pointer; 
+            position: relative; 
+            text-align: center;
+        }
+        .revealed { 
             background-color: white; 
             color: black; 
             border: 1px solid black; 
-            padding: 10px; 
-            margin: 10px; 
+            padding: 10px;
             text-align: left;
         }
         
+        .section-label { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            font-weight: bold; 
+            color: white; 
+        }
+
+        .content { display: none; } /* Initially hidden until revealed */
+
         button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
@@ -39,16 +58,19 @@
         <div id="term-box">
             <h2 id="term-name"></h2>
 
-            <div id="definition" class="section">
-                <strong>Definition:</strong> <span id="term-definition"></span>
+            <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
+                <div class="section-label">Definition</div>
+                <div class="content"><strong>Definition:</strong> <span id="term-definition"></span></div>
             </div>
 
-            <div id="symptoms" class="section">
-                <strong>Symptoms:</strong> <span id="term-symptoms"></span>
+            <div id="symptoms" class="hidden-section" onclick="toggleReveal('symptoms')">
+                <div class="section-label">Symptoms</div>
+                <div class="content"><strong>Symptoms:</strong> <span id="term-symptoms"></span></div>
             </div>
 
-            <div id="treatment" class="section">
-                <strong>Treatment:</strong> <span id="term-treatment"></span>
+            <div id="treatment" class="hidden-section" onclick="toggleReveal('treatment')">
+                <div class="section-label">Treatment</div>
+                <div class="content"><strong>Treatment:</strong> <span id="term-treatment"></span></div>
             </div>
         </div>
         <button onclick="getRandomTerm()">Next Random Term</button>
@@ -68,11 +90,40 @@
 
         function displayTerm(term) {
             document.getElementById("term-name").textContent = term.name;
+
             document.getElementById("term-definition").textContent = term.definition;
             document.getElementById("term-symptoms").textContent = term.symptoms;
             document.getElementById("term-treatment").textContent = term.treatment;
 
+            document.getElementById("definition").classList.remove("revealed");
+            document.getElementById("symptoms").classList.remove("revealed");
+            document.getElementById("treatment").classList.remove("revealed");
+
+            document.getElementById("definition").querySelector(".content").style.display = "none";
+            document.getElementById("symptoms").querySelector(".content").style.display = "none";
+            document.getElementById("treatment").querySelector(".content").style.display = "none";
+
+            document.getElementById("definition").querySelector(".section-label").style.display = "block";
+            document.getElementById("symptoms").querySelector(".section-label").style.display = "block";
+            document.getElementById("treatment").querySelector(".section-label").style.display = "block";
+
             document.getElementById("term-box").style.display = "block";
+        }
+
+        function toggleReveal(sectionId) {
+            let section = document.getElementById(sectionId);
+            let label = section.querySelector(".section-label");
+            let content = section.querySelector(".content");
+
+            if (section.classList.contains("revealed")) {
+                section.classList.remove("revealed");
+                label.style.display = "block"; // Show label again
+                content.style.display = "none"; // Hide content again
+            } else {
+                section.classList.add("revealed");
+                label.style.display = "none"; // Hide label
+                content.style.display = "block"; // Show content
+            }
         }
 
         // Populate Sidebar Table of Contents
