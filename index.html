@@ -13,10 +13,34 @@
         #sidebar li:hover { color: darkblue; }
         #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
-        .hidden-section { background-color: gray; color: gray; padding: 10px; margin: 10px; cursor: pointer; }
-        .revealed { background-color: white; color: black; border: 1px solid black; }
-        .section-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; color: white; }
-       button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+        
+        .hidden-section { 
+            background-color: gray; 
+            color: white; 
+            padding: 30px; 
+            margin: 10px; 
+            cursor: pointer; 
+            position: relative; 
+            text-align: center;
+        }
+        .revealed { 
+            background-color: white; 
+            color: black; 
+            border: 1px solid black; 
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .section-label { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            font-weight: bold; 
+            color: white; 
+        }
+        
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -31,7 +55,7 @@
     <div id="main-content">
         <div id="term-box">
             <h2 id="term-name"></h2>
-            
+
             <div id="definition" class="hidden-section" onclick="toggleReveal('definition')">
                 <div class="section-label">Definition</div>
                 <span id="term-definition">Click to Reveal</span>
@@ -83,13 +107,16 @@
         function toggleReveal(sectionId) {
             let section = document.getElementById(sectionId);
             let span = section.querySelector("span");
+            let label = section.querySelector(".section-label");
 
             if (section.classList.contains("revealed")) {
                 section.classList.remove("revealed");
                 span.textContent = "Click to Reveal";
+                label.style.display = "block"; // Show label again when hiding
             } else {
                 section.classList.add("revealed");
                 span.textContent = section.dataset.content;
+                label.style.display = "none"; // Hide label when revealed
             }
         }
 
@@ -105,7 +132,7 @@
         }
 
         populateIllnessList();
-	getRandomTerm();
+        getRandomTerm();
     </script>
 
 </body>
