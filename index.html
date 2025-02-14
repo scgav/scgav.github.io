@@ -102,6 +102,15 @@
             margin-inline-start: 10px;
         }
 
+        /* Second Random Button (Below Main Content) */
+        #random-button-bottom {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
         /* Mobile Adjustments */
         @media (max-width: 1024px) {
             #sidebar {
@@ -114,7 +123,7 @@
             }
 
             #random-button {
-		left: unset;
+                left: unset;
                 right: 25px;
             }
         }
@@ -155,6 +164,9 @@
                 <div class="content"><strong>Treatment:<br/></strong> <span id="term-treatment"></span></div>
             </div>
         </div>
+
+        <!-- Second Random Button Below Main Content -->
+        <button id="random-button-bottom" onclick="getRandomTerm()">Random</button>
     </div>
 
     <script>
