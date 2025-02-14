@@ -5,88 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signs, Symptoms, and Treatment of Illnesses and Injuries</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            display: flex;
+        }
 
         /* Sidebar (Illness List) */
-#sidebar {
-    width: 150px;
-    position: fixed;
-    left: 10px;
-    top: 10px;
-    padding: 10px;
-    border-right: 2px solid black;
-    height: 90vh;
-}
+        #sidebar {
+            width: 150px;
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            padding: 10px;
+            border-right: 2px solid black;
+            height: 90vh;
+        }
 
-        #sidebar h3 { margin-bottom: 10px; }
+        #sidebar h3 {
+            margin-bottom: 10px;
+        }
 
-        #sidebar ul { 
-            list-style: none; 
+        #sidebar ul {
+            list-style: none;
             padding: 0;
-            max-height: 80vh; 
-            overflow-y: auto; 
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
-        #sidebar li { margin: 5px 0; cursor: pointer; color: blue; text-decoration: underline; }
-
-        #sidebar li:hover { color: darkblue; }
-
-        /* Adjust Sidebar for Landscape Mobile */
-        @media (max-width: 1024px) and (orientation: landscape) {
-            #sidebar {
-                width: 112px; /* 75% of 150px */
-            }
+        #sidebar li {
+            margin: 5px 0;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
         }
 
-        /* Fixed Random Button */
-#random-button {
-    position: fixed;
-    left: calc(100vw - 280px); /* Adjusted further right */
-    top: 100px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-inline-start: 10px;
-}
+        #sidebar li:hover {
+            color: darkblue;
+        }
+
         /* Main Content (Terms) */
-#main-content {
-    margin-left: 170px; /* Sidebar width + spacing */
-    text-align: center;
-    flex-grow: 1;
-    max-width: calc(100vw - 170px - 350px); /* Ensures space from the button */
-    padding-right: 40px; /* Extra spacing from the button */
-}
+        #main-content {
+            margin-left: 170px; /* Sidebar width + spacing */
+            text-align: center;
+            flex-grow: 1;
+            max-width: calc(100vw - 170px - 350px); /* Ensures space from the button */
+            padding-right: 40px; /* Extra spacing from the button */
+        }
 
-        #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
+        #term-box {
+            display: none;
+            border: 1px solid black;
+            padding: 20px;
+            margin-top: 20px;
+        }
 
-        .hidden-section { 
-            background-color: gray; 
-            color: white; 
-            padding: 30px; 
-            margin: 10px; 
-            cursor: pointer; 
-            position: relative; 
+        .hidden-section {
+            background-color: gray;
+            color: white;
+            padding: 30px;
+            margin: 10px;
+            cursor: pointer;
+            position: relative;
             text-align: center;
         }
 
-        .revealed { 
-            background-color: white; 
-            color: black; 
-            border: 1px solid black; 
+        .revealed {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
             padding: 10px;
             text-align: left;
         }
 
-        .section-label { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
+        .section-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            font-weight: bold; 
-            color: white; 
+            font-weight: bold;
+            color: white;
         }
 
-        .content { display: none; }
+        .content {
+            display: none;
+        }
+
+        /* Fixed Random Button */
+        #random-button {
+            position: fixed;
+            left: calc(100vw - 280px); /* Adjusted further right */
+            top: 100px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-inline-start: 10px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            #sidebar {
+                width: 75%; /* Sidebar is 75% of its original size */
+            }
+
+            #main-content {
+                margin-left: 135px; /* 50% closer to sidebar */
+                max-width: calc(100vw - 135px - 175px); /* Adjusted for mobile spacing */
+            }
+
+            #random-button {
+                left: calc(100vw - 140px); /* 50% closer to the right */
+            }
+        }
     </style>
 </head>
 <body>
