@@ -6,25 +6,49 @@
     <title>Signs, Symptoms, and Treatment of Illnesses and Injuries</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
+        
+        /* Sidebar (Illness List) */
         #sidebar { 
-            width: 200px; 
+            width: 150px; /* Reduced width to 75% of original */
             position: fixed; 
             left: 10px; 
             top: 10px; 
             padding: 10px; 
             border-right: 2px solid black;
-            height: 90vh; /* Set height relative to viewport */
+            height: 90vh;
         }
+        
         #sidebar h3 { margin-bottom: 10px; }
+        
         #sidebar ul { 
             list-style: none; 
             padding: 0;
-            max-height: 80vh; /* Makes it scrollable */
-            overflow-y: auto; /* Enables scrolling */
+            max-height: 80vh; 
+            overflow-y: auto; 
         }
+        
         #sidebar li { margin: 5px 0; cursor: pointer; color: blue; text-decoration: underline; }
+        
         #sidebar li:hover { color: darkblue; }
-        #main-content { margin-left: 220px; text-align: center; flex-grow: 1; }
+
+        /* Fixed Random Button */
+        #random-button {
+            position: fixed;
+            left: 180px; /* Positioned to the right of the sidebar */
+            top: 100px; /* Fixed 100px from the top */
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-inline-start: 10px; /* Added 10px margin from the left */
+        }
+
+        /* Main Content (Terms) */
+        #main-content { 
+            margin-left: 250px; /* Adjusted margin to fit the new button */
+            text-align: center; 
+            flex-grow: 1; 
+        }
+        
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
         
         .hidden-section { 
@@ -36,6 +60,7 @@
             position: relative; 
             text-align: center;
         }
+        
         .revealed { 
             background-color: white; 
             color: black; 
@@ -53,9 +78,7 @@
             color: white; 
         }
 
-        .content { display: none; } /* Initially hidden until revealed */
-
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+        .content { display: none; }
     </style>
 </head>
 <body>
@@ -65,6 +88,9 @@
         <h3>Illnesses</h3>
         <ul id="illness-list"></ul>
     </div>
+
+    <!-- Fixed Random Term Button -->
+    <button id="random-button" onclick="getRandomTerm()">Random</button>
 
     <!-- Main Content -->
     <div id="main-content">
@@ -90,13 +116,38 @@
                 <div class="content"><strong>Treatment:<br/></strong> <span id="term-treatment"></span></div>
             </div>
         </div>
-        <button onclick="getRandomTerm()">Next Random Term</button>
     </div>
 
     <script>
+
+
+
+        function getRandomCooldownSize() {
+            let min = Math.floor(terms.length * 0.4); // 40% of illnesses
+            let max = Math.ceil(terms.length * 0.6);  // 60% of illnesses
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         function getRandomTerm() {
-            let randomIndex = Math.floor(Math.random() * terms.length);
-            displayTerm(terms[randomIndex]);
+            let availableTerms = terms.filter(term => !cooldownQueue.includes(term));
+
+            if (availableTerms.length === 0) {
+                cooldownQueue = []; // Reset cooldown when all terms are used
+                availableTerms = [...terms];
+            }
+
+            let randomIndex = Math.floor(Math.random() * availableTerms.length);
+            let selectedTerm = availableTerms[randomIndex];
+
+            displayTerm(selectedTerm);
+
+            // Add selected term to cooldown queue
+            cooldownQueue.push(selectedTerm);
+
+            // Ensure cooldown queue doesn't exceed the randomized size
+            if (cooldownQueue.length > cooldownSize) {
+                cooldownQueue.shift(); // Remove oldest term from cooldown
+            }
         }
 
         function displayTerm(term) {
@@ -406,7 +457,8 @@ const terms = [
         "treatment": "1. Check the level of consciousness <br>2. Ensure airway is clear <br>3. Place in recovery position and open airway <br>4. Loosen tight clothing <br>5. Treat any serious wounds or fractures <br>6. Keep them warm <br>7. Give oxygen <br>8. X give anything by mouth <br>9. X move unnecessarily <br>10. X leave unattended <br>11. Commence with CPR & AED if required <br>12. Monitor breathing and pulse <br>13. Contact MedLink"
     }
 ];
-
+	 let cooldownQueue = [];
+        let cooldownSize = getRandomCooldownSize();
         populateIllnessList();
         getRandomTerm();
     </script>
