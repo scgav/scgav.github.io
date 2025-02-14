@@ -8,15 +8,15 @@
         body { font-family: Arial, sans-serif; margin: 50px; display: flex; }
 
         /* Sidebar (Illness List) */
-        #sidebar { 
-            width: 150px; /* Default width */
-            position: fixed; 
-            left: 10px; 
-            top: 10px; 
-            padding: 10px; 
-            border-right: 2px solid black;
-            height: 90vh;
-        }
+#sidebar {
+    width: 150px;
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    padding: 10px;
+    border-right: 2px solid black;
+    height: 90vh;
+}
 
         #sidebar h3 { margin-bottom: 10px; }
 
@@ -39,22 +39,23 @@
         }
 
         /* Fixed Random Button */
-        #random-button {
-            position: fixed;
-            left: 180px; /* Positioned to the right of the sidebar */
-            top: 100px; /* Fixed 100px from the top */
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-inline-start: 10px; /* Added 10px margin from the left */
-        }
-
+#random-button {
+    position: fixed;
+    left: calc(100vw - 280px); /* Adjusted further right */
+    top: 100px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-inline-start: 10px;
+}
         /* Main Content (Terms) */
-        #main-content { 
-            margin-left: 250px; /* Adjusted margin to fit the new button */
-            text-align: center; 
-            flex-grow: 1; 
-        }
+#main-content {
+    margin-left: 170px; /* Sidebar width + spacing */
+    text-align: center;
+    flex-grow: 1;
+    max-width: calc(100vw - 170px - 350px); /* Ensures space from the button */
+    padding-right: 40px; /* Extra spacing from the button */
+}
 
         #term-box { display: none; border: 1px solid black; padding: 20px; margin-top: 20px; }
 
